@@ -18,7 +18,7 @@
       <h2 class="hello"></h2>
       <p>add item in your shopping list</p>
       <input type="text" class="addItem">
-      <button class=".add">Add</button>
+      <button class="add">Add</button>
       <ol>
         
       </ol>
@@ -30,9 +30,10 @@
     <script>
       const personalPage = document.querySelector('.personalPage');
       const loginBtn = document.querySelector('.loginBtn');
-      const addItem = document.querySelector('.addItem');
-      const add = document.querySelector('.add')
+      const itemInput = document.querySelector('.addItem');
+      const addBtn = document.querySelector('.add')
       const hello = document.querySelector('.hello');
+      const orderedList = document.querySelector('ol');
       let text;
       loginBtn.addEventListener('click', register);
       function register() {
@@ -47,10 +48,18 @@
         }
         hello.textContent = text;
       }
-      add.addEventListener('click', updateShoppingList);
+      addBtn.addEventListener('click', updateShoppingList);
       function updateShoppingList() {
-        let shopItem = addItem.value;
-
+        if (itemInput.value == null || itemInput.value == '') {
+          alert('try again');
+        } else {
+        let shopItem = itemInput.value;
+        let listedItem = document.createElement('li');
+        listedItem.textContent = shopItem;
+        orderedList.appendChild(listedItem);
+        itemInput.value = '';
+        itemInput.focus();
+        }
       }
       
 
