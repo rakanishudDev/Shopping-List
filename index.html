@@ -35,6 +35,7 @@
       const hello = document.querySelector('.hello');
       const orderedList = document.querySelector('ol');
       let text;
+      let saveList = [];
       loginBtn.addEventListener('click', register);
       function register() {
         let accName = prompt('Account name', 'Type here');
@@ -48,19 +49,33 @@
         }
         hello.textContent = text;
       }
-      addBtn.addEventListener('click', updateShoppingList);
+      addBtn.addEventListener('click', function() {
+        saveList.push(itemInput.value);
+        localStorage.setItem('itemName', saveList);
+        
+        
+
+
+        updateShoppingList();
+      });
+
+      let list = document.createElement('p');
+      let listedItem = document.createElement('li');
       function updateShoppingList() {
-        if (itemInput.value == null || itemInput.value == '') {
-          alert('try again');
-        } else {
-        let shopItem = itemInput.value;
-        let listedItem = document.createElement('li');
+        if (localStorage.getItem('itemName')) {
+        let shopItem = localStorage.getItem('itemName');
+        
         listedItem.textContent = shopItem;
         orderedList.appendChild(listedItem);
+        
+        list.textContent = saveList;
+        personalPage.appendChild(list);
         itemInput.value = '';
         itemInput.focus();
+
         }
       }
+      document.body.onload = updateShoppingList();
       
 
 
