@@ -50,26 +50,23 @@
         hello.textContent = text;
       }
       addBtn.addEventListener('click', function() {
-        saveList.push(itemInput.value);
+       
+        saveList.push(' ' + itemInput.value);
         localStorage.setItem('itemName', saveList);
         
-        
-
-
         updateShoppingList();
       });
 
       let list = document.createElement('p');
       let listedItem = document.createElement('li');
+
       function updateShoppingList() {
         if (localStorage.getItem('itemName')) {
         let shopItem = localStorage.getItem('itemName');
-        
         listedItem.textContent = shopItem;
         orderedList.appendChild(listedItem);
         
-        list.textContent = saveList;
-        personalPage.appendChild(list);
+       
         itemInput.value = '';
         itemInput.focus();
 
