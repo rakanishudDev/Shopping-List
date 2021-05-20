@@ -4,9 +4,60 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project one</title>
+    <style>
+      .personalPage {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <h1>Project one</h1>
-    <a href="">next</a>
+    
+    <button class="loginBtn">Log-in</button>
+    <div class="personalPage">
+      <h2 class="hello"></h2>
+      <p>add item in your shopping list</p>
+      <input type="text" class="addItem">
+      <button class=".add">Add</button>
+      <ol>
+        
+      </ol>
+    </div>
+
+
+
+
+    <script>
+      const personalPage = document.querySelector('.personalPage');
+      const loginBtn = document.querySelector('.loginBtn');
+      const addItem = document.querySelector('.addItem');
+      const add = document.querySelector('.add')
+      const hello = document.querySelector('.hello');
+      let text;
+      loginBtn.addEventListener('click', register);
+      function register() {
+        let accName = prompt('Account name', 'Type here');
+        if (accName == null || accName == '') {
+          text = 'Please try again, fields empty';
+        } if (accName == 'ahti') {
+          text = 'Hello ahti';
+          personalPage.style.display = 'block';
+        } else {
+          text = 'try again';
+        }
+        hello.textContent = text;
+      }
+      add.addEventListener('click', updateShoppingList);
+      function updateShoppingList() {
+        let shopItem = addItem.value;
+
+      }
+      
+
+
+
+      
+      
+    </script>
   </body>
 </html>
