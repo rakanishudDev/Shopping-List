@@ -34,15 +34,19 @@
       const addBtn = document.querySelector('.add')
       const hello = document.querySelector('.hello');
       const orderedList = document.querySelector('ol');
+      let Local;
+      let shopItem;
       let text;
+      let accName;
       let saveList = [];
       loginBtn.addEventListener('click', register);
       function register() {
-        let accName = prompt('Account name', 'Type here');
+        var loginP = prompt('Account name', 'Type here');
+        accName = loginP;
         if (accName == null || accName == '') {
           text = 'Please try again, fields empty';
-        } if (accName == 'ahti') {
-          text = 'Hello ahti';
+        } if (accName) {
+          text = 'Hello' + ' ' + accName;
           personalPage.style.display = 'block';
         } else {
           text = 'try again';
@@ -51,28 +55,52 @@
       }
       addBtn.addEventListener('click', function() {
        
-        saveList.push(' ' + itemInput.value);
-        localStorage.setItem('itemName', saveList);
         
-        updateShoppingList();
+        if (accName == 'ahti') {
+          saveList.push(' ' + itemInput.value);
+        localStorage.setItem('itemNameAhti', saveList);
+        updateShoppingListAhti();
+        }
+        if (accName == 'sten') {
+          saveList.push(' ' + itemInput.value);
+        localStorage.setItem('itemNameSten', saveList);
+        updateShoppingListSten();
+        }
+
+        
       });
 
       let list = document.createElement('p');
       let listedItem = document.createElement('li');
 
-      function updateShoppingList() {
-        if (localStorage.getItem('itemName')) {
-        let shopItem = localStorage.getItem('itemName');
-        listedItem.textContent = shopItem;
-        orderedList.appendChild(listedItem);
+      function updateShoppingListAhti() {
         
-       
+        if (localStorage.getItem('itemNameAhti')) {
+          shopItem = localStorage.getItem('itemNameAhti');
+          listedItem.textContent = shopItem;
+          orderedList.appendChild(listedItem);
+        }
+
         itemInput.value = '';
         itemInput.focus();
-
-        }
       }
-      document.body.onload = updateShoppingList();
+      function updateShoppingListSten() {
+        if (localStorage.getItem('itemNamesten')) {
+          shopItem = localStorage.getItem('itemNameSten');
+          listedItem.textContent = shopItem;
+          orderedList.appendChild(listedItem);
+        }
+
+        itemInput.value = '';
+        itemInput.focus();
+      }
+
+      if (accName == 'ahti') {
+      document.body.onload = updateShoppingListAhti();
+      }
+      if (accName == 'sten') {
+      document.body.onload = updateShoppingListSten();
+      }
       
 
 
