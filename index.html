@@ -12,8 +12,9 @@
   </head>
   <body>
     <h1>Project one</h1>
-    
-    <button class="loginBtn">Log-in</button>
+
+    <p class="createCartP">Create new one or use existing shopping cart</p>
+    <button class="loginBtn">Shopping cart</button>
     <div class="personalPage">
       <h2 class="hello"></h2>
       <p>add item in your shopping list</p>
@@ -34,77 +35,64 @@
       const addBtn = document.querySelector('.add')
       const hello = document.querySelector('.hello');
       const orderedList = document.querySelector('ol');
+      let listedItem = document.createElement('li');
+      let createCartP = document.querySelector('.createCartP');
       let Local;
       let shopItem;
       let text;
       let accName;
-      let saveList = [];
+      let name;
+      let saveListA = [];
+
       loginBtn.addEventListener('click', register);
+
       function register() {
-        var loginP = prompt('Account name', 'Type here');
+        var loginP = prompt('Shopping Cart Name', 'Type here');
         accName = loginP;
+        
         if (accName == null || accName == '') {
           text = 'Please try again, fields empty';
         } if (accName) {
-          text = 'Hello' + ' ' + accName;
+          
+          localStorage.setItem('acc' + name, accName);
+
+          name = localStorage.getItem('acc' + name);
+          text = 'Shopping Cart:' + ' ' + name;
           personalPage.style.display = 'block';
         } else {
           text = 'try again';
         }
         hello.textContent = text;
-      }
-      addBtn.addEventListener('click', function() {
-       
-        
-        if (accName == 'ahti') {
-          saveList.push(' ' + itemInput.value);
-        localStorage.setItem('itemNameAhti', saveList);
-        updateShoppingListAhti();
-        }
-        if (accName == 'sten') {
-          saveList.push(' ' + itemInput.value);
-        localStorage.setItem('itemNameSten', saveList);
-        updateShoppingListSten();
-        }
+        document.body.onload = updateShoppingList();
+        //loginBtn.style.display = 'none';
+        createCartP.style.display = 'none';
 
-        
-      });
-
-      let list = document.createElement('p');
-      let listedItem = document.createElement('li');
-
-      function updateShoppingListAhti() {
-        
-        if (localStorage.getItem('itemNameAhti')) {
-          shopItem = localStorage.getItem('itemNameAhti');
-          listedItem.textContent = shopItem;
-          orderedList.appendChild(listedItem);
-        }
-
-        itemInput.value = '';
-        itemInput.focus();
-      }
-      function updateShoppingListSten() {
-        if (localStorage.getItem('itemNamesten')) {
-          shopItem = localStorage.getItem('itemNameSten');
-          listedItem.textContent = shopItem;
-          orderedList.appendChild(listedItem);
-        }
-
-        itemInput.value = '';
-        itemInput.focus();
       }
 
-      if (accName == 'ahti') {
-      document.body.onload = updateShoppingListAhti();
-      }
-      if (accName == 'sten') {
-      document.body.onload = updateShoppingListSten();
-      }
       
+      addBtn.addEventListener('click', function() {
 
+          saveListA.push(' ' + itemInput.value);
+          localStorage.setItem('itemName' + name, saveListA);
+          updateShoppingList();
+        }
+        
+      );
+      
+      function updateShoppingList() {
+        
+        if (localStorage.getItem('itemName' + name)) {
 
-
+          shopItem = localStorage.getItem('itemName' + name);
+          listedItem.textContent = shopItem;
+          orderedList.appendChild(listedItem);
+        }
+        itemInput.value = '';
+        itemInput.focus();
+        }
+        
+     
+      
       
       
     </script>
