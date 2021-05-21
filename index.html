@@ -113,6 +113,7 @@
         if (accName == null || accName == '') {
           text = 'Please try again, fields empty';
           personalPage.style.display = 'none';
+          deleteBtn.style.disply = 'none';
         } if (accName) {
           saveListA = [];
           listedItem.textContent = '';
@@ -127,13 +128,15 @@
         }
         hello.textContent = text;
         document.body.onload = updateShoppingList();
-        //loginBtn.style.display = 'none';
+        
         createCartP.style.display = 'none';
       }
 
       addBtn.addEventListener('click', function() {
-          saveListA.push(' ' + itemInput.value);
+          let inputItem = itemInput.value;
+          saveListA.push(itemInput.value);
           localStorage.setItem('itemName' + name, saveListA);
+          
           updateShoppingList();
         }
       );
@@ -142,9 +145,21 @@
         
         if (localStorage.getItem('itemName' + name)) {
           shopItem = localStorage.getItem('itemName' + name);
-          listedItem.textContent = shopItem;
-          orderedList.appendChild(listedItem);
+          let list = [];
+          list.push(shopItem);
+          for (let i = 0; i < list.length; i++) {
+            let li = document.createElement('li');
+            li.textContent = shopItem;
+            orderedList.appendChild(li);
+            saveListA = [];
+          }
+         
+          
+         
         }
+
+        
+
         itemInput.value = '';
         itemInput.focus();
         }
