@@ -100,12 +100,14 @@
         if (accName == null || accName == '') {
           text = 'Please try again, fields empty';
         } if (accName) {
-          
+          saveListA = [];
+          listedItem.textContent = '';
           localStorage.setItem('acc' + name, accName);
 
           name = localStorage.getItem('acc' + name);
           text = 'Shopping Cart:' + ' ' + name;
           personalPage.style.display = 'block';
+          
         } else {
           text = 'try again';
         }
@@ -113,12 +115,16 @@
         document.body.onload = updateShoppingList();
         //loginBtn.style.display = 'none';
         createCartP.style.display = 'none';
+        
+        
+
 
       }
 
       
       addBtn.addEventListener('click', function() {
 
+          
           saveListA.push(' ' + itemInput.value);
           localStorage.setItem('itemName' + name, saveListA);
           updateShoppingList();
@@ -134,8 +140,10 @@
           listedItem.textContent = shopItem;
           orderedList.appendChild(listedItem);
         }
+        
         itemInput.value = '';
         itemInput.focus();
+
         }
         
      
