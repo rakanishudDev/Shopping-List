@@ -19,8 +19,8 @@
         justify-content: center;
         background-color: rgb(223, 223, 223);
         max-width: 300px;
-
       }
+      
       .flexCenter {
         display: flex;
         justify-content: center;
@@ -45,6 +45,12 @@
         padding-left: 5px;
         text-align: center;
       }
+      .deleteBtn {
+        display: none;
+        width: 50%;
+        align-self: center;
+      }
+     
 
 
     </style>
@@ -62,7 +68,7 @@
       <p class="createCartP">Create new one or use existing shopping cart</p>
       <button class="loginBtn">Shopping cart</button>
       <h2 class="hello"></h2>
-      <button>Delete cart</button>
+      <button class="deleteBtn">Delete current cart</button>
       <div class="personalPage">
         <p>Add item in your shopping list</p>
         <input type="text" class="addItem">
@@ -90,6 +96,7 @@
       let listedItem = document.createElement('li');
       let createCartP = document.querySelector('.createCartP');
       const inputArea = document.querySelector('.inputArea');
+      const deleteBtn = document.querySelector('.deleteBtn');
       let Local;
       let shopItem;
       let text;
@@ -115,6 +122,8 @@
 
           text = 'Shopping Cart:' + ' ' + name;
           personalPage.style.display = 'block';
+          deleteBtn.style.display = 'block';
+          
         }
         hello.textContent = text;
         document.body.onload = updateShoppingList();
@@ -139,6 +148,11 @@
         itemInput.value = '';
         itemInput.focus();
         }
+
+        deleteBtn.addEventListener('click', function() {
+          localStorage.removeItem('itemName' + name);
+          updateShoppingList();
+        });
         
     </script>
   </body>
