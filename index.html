@@ -62,6 +62,7 @@
       <p class="createCartP">Create new one or use existing shopping cart</p>
       <button class="loginBtn">Shopping cart</button>
       <h2 class="hello"></h2>
+      <button>Delete cart</button>
       <div class="personalPage">
         <p>Add item in your shopping list</p>
         <input type="text" class="addItem">
@@ -108,53 +109,37 @@
         } if (accName) {
           saveListA = [];
           listedItem.textContent = '';
-          localStorage.setItem('acc' + name, accName);
 
+          localStorage.setItem('acc' + name, accName);
           name = localStorage.getItem('acc' + name);
+
           text = 'Shopping Cart:' + ' ' + name;
           personalPage.style.display = 'block';
-          
-          
         }
         hello.textContent = text;
         document.body.onload = updateShoppingList();
         //loginBtn.style.display = 'none';
         createCartP.style.display = 'none';
-        
-        
-
-
       }
 
-      
       addBtn.addEventListener('click', function() {
-
-          
           saveListA.push(' ' + itemInput.value);
           localStorage.setItem('itemName' + name, saveListA);
           updateShoppingList();
         }
-        
       );
       
       function updateShoppingList() {
         
         if (localStorage.getItem('itemName' + name)) {
-
           shopItem = localStorage.getItem('itemName' + name);
           listedItem.textContent = shopItem;
           orderedList.appendChild(listedItem);
         }
-        
         itemInput.value = '';
         itemInput.focus();
-
         }
         
-     
-      
-      
-      
     </script>
   </body>
 </html>
