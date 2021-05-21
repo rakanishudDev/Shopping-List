@@ -11,6 +11,7 @@
       .personalPage {
         display: none;
         padding: 5px;
+        
       }
       .mainC {
         display: flex;
@@ -40,6 +41,10 @@
       .createCartP {
         text-align: center;
       }
+      .hello {
+        padding-left: 5px;
+        text-align: center;
+      }
 
 
     </style>
@@ -53,18 +58,17 @@
         <img class="logo2" src="cart.png">
         <h1>Shopping List</h1>
       </div>
-      
-      
+
       <p class="createCartP">Create new one or use existing shopping cart</p>
       <button class="loginBtn">Shopping cart</button>
+      <h2 class="hello"></h2>
       <div class="personalPage">
-        <h2 class="hello"></h2>
         <p>Add item in your shopping list</p>
         <input type="text" class="addItem">
         <button class="add">Add</button>
         <div class="cartDiv">
-          
         </div>
+        
       
     </div>
     </div>
@@ -84,6 +88,7 @@
       const orderedList = document.querySelector('.cartDiv');
       let listedItem = document.createElement('li');
       let createCartP = document.querySelector('.createCartP');
+      const inputArea = document.querySelector('.inputArea');
       let Local;
       let shopItem;
       let text;
@@ -99,6 +104,7 @@
         
         if (accName == null || accName == '') {
           text = 'Please try again, fields empty';
+          personalPage.style.display = 'none';
         } if (accName) {
           saveListA = [];
           listedItem.textContent = '';
@@ -108,8 +114,7 @@
           text = 'Shopping Cart:' + ' ' + name;
           personalPage.style.display = 'block';
           
-        } else {
-          text = 'try again';
+          
         }
         hello.textContent = text;
         document.body.onload = updateShoppingList();
