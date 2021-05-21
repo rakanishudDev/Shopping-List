@@ -150,8 +150,12 @@
         }
 
         deleteBtn.addEventListener('click', function() {
+          saveListA = [];
+          listedItem.textContent = '';
+
           localStorage.removeItem('itemName' + name);
           updateShoppingList();
+          
         });
         
     </script>
