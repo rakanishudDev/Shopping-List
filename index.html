@@ -66,12 +66,15 @@
       </div>
 
       <p class="createCartP">Create new one or use existing shopping cart</p>
-      <button class="loginBtn">Shopping cart</button>
+      <button class="loginBtn">Create Shopping cart</button>
+      <select>
+        <option disabled selected value>Choose saved Carts</option>
+      </select>
       <h2 class="hello"></h2>
       <button class="deleteBtn">Delete current cart</button>
       <div class="personalPage">
         <p>Add item in your shopping list</p>
-        <input type="text" class="addItem">
+        <input required type="text" class="addItem" placeholder="Shopping item">
         <button class="add">Add</button>
         <div class="cartDiv">
         </div>
@@ -93,76 +96,111 @@
       const addBtn = document.querySelector('.add')
       const hello = document.querySelector('.hello');
       const orderedList = document.querySelector('.cartDiv');
-      let listedItem = document.createElement('li');
+      const select = document.querySelector('select');
       let createCartP = document.querySelector('.createCartP');
       const inputArea = document.querySelector('.inputArea');
       const deleteBtn = document.querySelector('.deleteBtn');
-      let Local;
-      let shopItem;
       let text;
-      let accName;
-      let name;
-      let saveListA = [];
+     
+
+      let profile = {};
+
+        Storage.prototype.setObj = function(key, obj) {
+          return this.setItem(key, JSON.stringify(obj))
+        }
+        Storage.prototype.getObj = function(key) {
+          return JSON.parse(this.getItem(key))
+        }
 
       loginBtn.addEventListener('click', register);
-
+      let promptValue;
+      let selectOption;
+      profile.names = [];
       function register() {
-        var loginP = prompt('Shopping Cart Name', '');
-        accName = loginP;
-        
-        if (accName == null || accName == '') {
+        promptValue = prompt('Shopping Cart Name', '');
+        localProfile = localStorage.getObj('profile');
+        if (promptValue == null || promptValue == '') {
           text = 'Please try again, fields empty';
           personalPage.style.display = 'none';
-          deleteBtn.style.disply = 'none';
-        } if (accName) {
-          saveListA = [];
-          listedItem.textContent = '';
+          deleteBtn.style.display ='none';
+        } if (promptValue) {
+            text = 'Shopping Cart:' + ' ' + promptValue;
+            orderedList.textContent = '';
+            
+            profile.names.push(promptValue);
+            profile[promptValue] = {};
+            profile[promptValue].list = [];
+            personalPage.style.display = 'block';
+            deleteBtn.style.display = 'block';
+            selectOption = document.createElement('option');
+            selectOption.textContent = promptValue;
+            select.appendChild(selectOption);
 
-          localStorage.setItem('acc' + name, accName);
-          name = localStorage.getItem('acc' + name);
-
-          text = 'Shopping Cart:' + ' ' + name;
-          personalPage.style.display = 'block';
-          deleteBtn.style.display = 'block';
-          
+            if (localProfile[promptValue]) {
+              for (let i = 0; i < localProfile[promptValue].list.length; i++) {
+              let li = document.createElement('li');
+              let checkbox = document.createElement('input');
+              checkbox.type = 'checkbox';
+              li.textContent = localProfile[promptValue].list[i];
+              li.appendChild(checkbox);
+              orderedList.appendChild(li);
+              }
+            }
         }
+
         hello.textContent = text;
-        document.body.onload = updateShoppingList();
-        
         createCartP.style.display = 'none';
       }
 
       addBtn.addEventListener('click', function() {
-          let inputItem = itemInput.value;
-          saveListA.push(itemInput.value);
-          localStorage.setItem('itemName' + name, saveListA);
-          
+         
+          profile[promptValue].currentItem = itemInput.value;
+          profile[promptValue].list.push(itemInput.value);
           updateShoppingList();
         }
       );
       
       function updateShoppingList() {
-        
-        if (localStorage.getItem('itemName' + name)) {
-          shopItem = localStorage.getItem('itemName' + name);
-          let list = [];
-          list.push(shopItem);
-          for (let i = 0; i < list.length; i++) {
-            let li = document.createElement('li');
-            li.textContent = shopItem;
-            orderedList.appendChild(li);
-            saveListA = [];
-          }
-         
-          
-         
-        }
-
-        
+        let li = document.createElement('li');
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        li.textContent = profile[promptValue].currentItem + ' ';
+        profile[promptValue].currentItem = '';
+        li.appendChild(checkbox);
+        orderedList.appendChild(li);
+        localStorage.setObj('profile', profile);
 
         itemInput.value = '';
         itemInput.focus();
         }
+        
+        select.addEventListener('change', function() {
+          localProfile = localStorage.getObj('profile');
+          let selectValue = select.value;
+          orderedList.textContent = '';
+          text = 'Shopping Cart: ' + selectValue
+          hello.textContent = text;
+            for (let i = 0; i < localProfile[selectValue].list.length; i++) {
+              let li = document.createElement('li');
+              let checkbox = document.createElement('input');
+              checkbox.type = 'checkbox';
+              li.textContent = localProfile[selectValue].list[i];
+              li.appendChild(checkbox);
+              orderedList.appendChild(li);
+              }
+        });
+
+        //document.body.onload = function() {
+          //localProfile = localStorage.getObj('profile');
+          //selectOption = documentCreateElement
+
+        //}
+        document.body.onload = function() {
+          localStorage.setObj('profile', profile);
+        };
+
+
+
 
         deleteBtn.addEventListener('click', function() {
           saveListA = [];
