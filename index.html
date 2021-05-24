@@ -116,6 +116,7 @@
       let promptValue;
       function register() {
         promptValue = prompt('Shopping Cart Name', '');
+        if (promptValue != null || promptValue != '') {
         let localNames = localStorage.getObj('nameeList');
 
         if (localNames == null && promptValue != null && promptValue != '') {
@@ -127,7 +128,7 @@
 
         function booleanList() {
           for (let i = 0; i < localNames.list.length; i++) {
-          if (localNames.list[i] != promptValue && promptValue != null) {
+          if (localNames.list[i] != promptValue && promptValue != null || promptValue != '') {
             localNames.boolean = false;
           } else {
             return localNames.boolean = true;
@@ -162,7 +163,7 @@
             selectOption.textContent = promptValue;
             select.appendChild(selectOption);
         }
-         if (localProfile != null && promptValue != null) {
+        if (localProfile != null && promptValue != null) {
               text = 'Shopping Cart:' + ' ' + promptValue;
               orderedList.textContent = '';
               hello.textContent = text;
@@ -176,8 +177,9 @@
               personalPage.style.display = 'block';
               deleteBtn.style.display = 'block';
               }
-            }
-            if (promptValue == null || promptValue == '') {
+        }
+      }
+        if (promptValue == null || promptValue == '') {
           text = 'Please try again, fields empty';
           personalPage.style.display = 'none';
           deleteBtn.style.display = 'none';
