@@ -143,12 +143,6 @@
           localStorage.setObj('nameeList', localNames)
         }
         
-        
-        
-
-        //localStorage.setObj('names', localNames);
-        
-
         let localProfile = localStorage.getObj(promptValue);
          if (localProfile == null && promptValue != null) {
             text = 'Shopping Cart:' + ' ' + promptValue;
@@ -190,37 +184,37 @@
       }
 
       addBtn.addEventListener('click', function() {
-        let localProfile = localStorage.getObj(promptValue);
-        if (localProfile != null) {
-          localProfile[promptValue].list.push(itemInput.value);
-          localProfile[promptValue].currentItem = itemInput.value;
-          localStorage.setObj(promptValue, localProfile);
-          updateShoppingListLocal();
-        } else {
+          let localProfile = localStorage.getObj(promptValue);
+          if (localProfile != null) {
+            localProfile[promptValue].list.push(itemInput.value);
+            localProfile[promptValue].currentItem = itemInput.value;
+            localStorage.setObj(promptValue, localProfile);
+            updateShoppingListLocal();
+          } else {
 
-          profile[promptValue].currentItem = itemInput.value;
-          profile[promptValue].list.push(itemInput.value);
-          updateShoppingList();
-        }
-        }
-      );
+            profile[promptValue].currentItem = itemInput.value;
+            profile[promptValue].list.push(itemInput.value);
+            updateShoppingList();
+          }
+          }
+        );
       
       function updateShoppingList() {
-        let li = document.createElement('li');
-        let checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        li.textContent = profile[promptValue].currentItem + ' ';
-        profile[promptValue].currentItem = '';
-        li.appendChild(checkbox);
-        orderedList.appendChild(li);
-        localStorage.setObj(promptValue, profile);
+          let li = document.createElement('li');
+          let checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          li.textContent = profile[promptValue].currentItem + ' ';
+          profile[promptValue].currentItem = '';
+          li.appendChild(checkbox);
+          orderedList.appendChild(li);
+          localStorage.setObj(promptValue, profile);
 
-        itemInput.value = '';
-        itemInput.focus();
-        }
+          itemInput.value = '';
+          itemInput.focus();
+          }
 
 
-        function updateShoppingListLocal() {
+      function updateShoppingListLocal() {
           let localProfile = localStorage.getObj(promptValue);
           let li = document.createElement('li');
           let checkbox = document.createElement('input');
@@ -235,7 +229,7 @@
           itemInput.focus();
         }
 
-        document.body.onload = function() {
+      document.body.onload = function() {
           let localNames = localStorage.getObj('nameeList');
           for (let i = 0; i < localNames.list.length; i++) {
             let selectOption = document.createElement('option');
@@ -246,7 +240,7 @@
         }
 
         
-        select.addEventListener('change', function() {
+      select.addEventListener('change', function() {
           let selectValue = select.value;
           let localProfile = localStorage.getObj(selectValue);
           text = 'Shopping Cart:' + ' ' + selectValue;
@@ -264,7 +258,7 @@
         }
       });
 
-        deleteBtn.addEventListener('click', function() {
+      deleteBtn.addEventListener('click', function() {
           saveListA = [];
           listedItem.textContent = '';
 
