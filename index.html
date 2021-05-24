@@ -66,9 +66,9 @@
       </div>
 
       <p class="createCartP">Create new one or use existing shopping cart</p>
-      <button class="loginBtn">Create Shopping cart</button>
-      <select>
-        <option disabled selected value>Choose saved Carts</option>
+      <button class="loginBtn">Shopping cart</button>
+      <select class="select">
+        <option disabled selected value>Choose saved carts</option>
       </select>
       <h2 class="hello"></h2>
       <button class="deleteBtn">Delete current cart</button>
@@ -93,59 +93,94 @@
       const personalPage = document.querySelector('.personalPage');
       const loginBtn = document.querySelector('.loginBtn');
       const itemInput = document.querySelector('.addItem');
-      const addBtn = document.querySelector('.add')
+      const addBtn = document.querySelector('.add');
       const hello = document.querySelector('.hello');
       const orderedList = document.querySelector('.cartDiv');
-      const select = document.querySelector('select');
+      const select = document.querySelector('.select');
       let createCartP = document.querySelector('.createCartP');
       const inputArea = document.querySelector('.inputArea');
       const deleteBtn = document.querySelector('.deleteBtn');
       let text;
      
-
+      let names = {};
       let profile = {};
 
-        Storage.prototype.setObj = function(key, obj) {
-          return this.setItem(key, JSON.stringify(obj))
-        }
-        Storage.prototype.getObj = function(key) {
-          return JSON.parse(this.getItem(key))
-        }
+      Storage.prototype.setObj = function(key, obj) {
+        return this.setItem(key, JSON.stringify(obj))
+      }
+      Storage.prototype.getObj = function(key) {
+        return JSON.parse(this.getItem(key))
+      }
 
       loginBtn.addEventListener('click', register);
       let promptValue;
-      let selectOption;
-      profile.names = [];
       function register() {
         promptValue = prompt('Shopping Cart Name', '');
-        localProfile = localStorage.getObj('profile');
-        if (promptValue == null || promptValue == '') {
-          text = 'Please try again, fields empty';
-          personalPage.style.display = 'none';
-          deleteBtn.style.display ='none';
-        } if (promptValue) {
+        let localNames = localStorage.getObj('nameeList');
+
+        if (localNames == null && promptValue != null) {
+          names.list = [];
+          names.list.push(promptValue);
+          names.boolean = '';
+          localStorage.setObj('nameeList', names)
+        };
+
+        function booleanList() {
+          for (let i = 0; i < localNames.list.length; i++) {
+          if (localNames.list[i] != promptValue && promptValue != null) {
+            localNames.boolean = false;
+          } else {
+            return localNames.boolean = true;
+          }
+        }
+        };
+
+        localNames.boolean = '';
+        booleanList();
+        if (localNames.boolean == false) {
+          localNames.list.push(promptValue);
+          localStorage.setObj('nameeList', localNames)
+        }
+        
+        
+        
+
+        //localStorage.setObj('names', localNames);
+        
+
+        let localProfile = localStorage.getObj(promptValue);
+         if (localProfile == null && promptValue != null) {
             text = 'Shopping Cart:' + ' ' + promptValue;
             orderedList.textContent = '';
-            
-            profile.names.push(promptValue);
             profile[promptValue] = {};
             profile[promptValue].list = [];
             personalPage.style.display = 'block';
             deleteBtn.style.display = 'block';
-            selectOption = document.createElement('option');
+            hello.textContent = text;
+            createCartP.style.display = 'none';
+            let selectOption = document.createElement('option');
             selectOption.textContent = promptValue;
             select.appendChild(selectOption);
-
-            if (localProfile[promptValue]) {
+        }
+         if (localProfile != null && promptValue != null) {
+              text = 'Shopping Cart:' + ' ' + promptValue;
+              orderedList.textContent = '';
+              hello.textContent = text;
               for (let i = 0; i < localProfile[promptValue].list.length; i++) {
               let li = document.createElement('li');
               let checkbox = document.createElement('input');
               checkbox.type = 'checkbox';
-              li.textContent = localProfile[promptValue].list[i];
+              li.textContent = localProfile[promptValue].list[i] + ' ';
               li.appendChild(checkbox);
               orderedList.appendChild(li);
+              personalPage.style.display = 'block';
+              deleteBtn.style.display = 'block';
               }
             }
+            if (promptValue == null || promptValue == '') {
+          text = 'Please try again, fields empty';
+          personalPage.style.display = 'none';
+          deleteBtn.style.display = 'none';
         }
 
         hello.textContent = text;
@@ -153,10 +188,18 @@
       }
 
       addBtn.addEventListener('click', function() {
-         
+        let localProfile = localStorage.getObj(promptValue);
+        if (localProfile != null) {
+          localProfile[promptValue].list.push(itemInput.value);
+          localProfile[promptValue].currentItem = itemInput.value;
+          localStorage.setObj(promptValue, localProfile);
+          updateShoppingListLocal();
+        } else {
+
           profile[promptValue].currentItem = itemInput.value;
           profile[promptValue].list.push(itemInput.value);
           updateShoppingList();
+        }
         }
       );
       
@@ -168,39 +211,56 @@
         profile[promptValue].currentItem = '';
         li.appendChild(checkbox);
         orderedList.appendChild(li);
-        localStorage.setObj('profile', profile);
+        localStorage.setObj(promptValue, profile);
 
         itemInput.value = '';
         itemInput.focus();
         }
+
+
+        function updateShoppingListLocal() {
+          let localProfile = localStorage.getObj(promptValue);
+          let li = document.createElement('li');
+          let checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          li.textContent = localProfile[promptValue].currentItem + ' ';
+          localProfile[promptValue].currentItem = '';
+          li.appendChild(checkbox);
+          orderedList.appendChild(li);
+          localStorage.setObj(promptValue, localProfile);
+
+          itemInput.value = '';
+          itemInput.focus();
+        }
+
+        document.body.onload = function() {
+          let localNames = localStorage.getObj('nameeList');
+          for (let i = 0; i < localNames.list.length; i++) {
+            let selectOption = document.createElement('option');
+            selectOption.textContent = localNames.list[i];
+            select.appendChild(selectOption);
+
+          }
+        }
+
         
         select.addEventListener('change', function() {
-          localProfile = localStorage.getObj('profile');
           let selectValue = select.value;
+          let localProfile = localStorage.getObj(selectValue);
+          text = 'Shopping Cart:' + ' ' + promptValue;
           orderedList.textContent = '';
-          text = 'Shopping Cart: ' + selectValue
           hello.textContent = text;
-            for (let i = 0; i < localProfile[selectValue].list.length; i++) {
-              let li = document.createElement('li');
-              let checkbox = document.createElement('input');
-              checkbox.type = 'checkbox';
-              li.textContent = localProfile[selectValue].list[i];
-              li.appendChild(checkbox);
-              orderedList.appendChild(li);
-              }
-        });
-
-        //document.body.onload = function() {
-          //localProfile = localStorage.getObj('profile');
-          //selectOption = documentCreateElement
-
-        //}
-        document.body.onload = function() {
-          localStorage.setObj('profile', profile);
-        };
-
-
-
+          for (let i = 0; i < localProfile[selectValue].list.length; i++) {
+          let li = document.createElement('li');
+          let checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          li.textContent = localProfile[selectValue].list[i] + ' ';
+          li.appendChild(checkbox);
+          orderedList.appendChild(li);
+          personalPage.style.display = 'block';
+          deleteBtn.style.display = 'block';
+        }
+      });
 
         deleteBtn.addEventListener('click', function() {
           saveListA = [];
@@ -210,6 +270,8 @@
           updateShoppingList();
           
         });
+
+        
         
     </script>
   </body>
