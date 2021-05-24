@@ -118,7 +118,7 @@
         promptValue = prompt('Shopping Cart Name', '');
         let localNames = localStorage.getObj('nameeList');
 
-        if (localNames == null && promptValue != null) {
+        if (localNames == null && promptValue != null && promptValue != '') {
           names.list = [];
           names.list.push(promptValue);
           names.boolean = '';
@@ -137,7 +137,7 @@
 
         localNames.boolean = '';
         booleanList();
-        if (localNames.boolean == false) {
+        if (localNames.boolean == false && promptValue != '') {
           localNames.list.push(promptValue);
           localStorage.setObj('nameeList', localNames)
         }
@@ -247,7 +247,7 @@
         select.addEventListener('change', function() {
           let selectValue = select.value;
           let localProfile = localStorage.getObj(selectValue);
-          text = 'Shopping Cart:' + ' ' + promptValue;
+          text = 'Shopping Cart:' + ' ' + selectValue;
           orderedList.textContent = '';
           hello.textContent = text;
           for (let i = 0; i < localProfile[selectValue].list.length; i++) {
