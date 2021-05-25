@@ -144,7 +144,7 @@
         }
         
         let localProfile = localStorage.getObj(promptValue);
-         if (localProfile == null && promptValue != null) {
+         if (localProfile == null && promptValue != null || promptValue != '') {
             text = 'Shopping Cart:' + ' ' + promptValue;
             orderedList.textContent = '';
             profile[promptValue] = {};
