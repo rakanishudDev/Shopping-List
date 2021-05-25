@@ -157,7 +157,7 @@
             selectOption.textContent = promptValue;
             select.appendChild(selectOption);
         }
-        if (localProfile != null && promptValue != null) {
+        if (localProfile != null && promptValue != null || promptValue != '') {
               text = 'Shopping Cart:' + ' ' + promptValue;
               orderedList.textContent = '';
               hello.textContent = text;
