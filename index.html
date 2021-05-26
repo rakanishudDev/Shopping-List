@@ -112,6 +112,7 @@
       if (!localStorage.getObj('names')) {
         let names = {};
         names.list = [];
+        localNames = localStorage.setObj('names', names);
         localStorage.setObj('names', names);
       } else {
         localNames = localStorage.getObj('names');
@@ -169,7 +170,7 @@
 
       // ADDbtn eventListener //
       addBtn.addEventListener('click', function() {
-        let localProfile = localStorage.getObj(cartName)
+        let localProfile = localStorage.getObj(cartName);
         let cartItem = inputItem.value;
         localProfile.list.push(cartItem);
         localStorage.setObj(localProfile.name, localProfile);
