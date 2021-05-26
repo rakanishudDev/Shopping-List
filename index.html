@@ -66,10 +66,7 @@
       </div>
 
       <p class="createCartP">Create new one or use existing shopping cart</p>
-      <button class="loginBtn">Create Shopping cart</button>
-      <select class="select">
-        <option disabled selected value>Choose saved carts</option>
-      </select>
+      <button class="loginBtn">Shopping cart</button>
       <h2 class="hello"></h2>
       <button class="deleteBtn">Delete current cart</button>
       <div class="personalPage">
@@ -77,6 +74,9 @@
         <input required type="text" class="addItem" placeholder="Shopping item">
         <button class="add">Add</button>
         <div class="cartDiv">
+          <ol class="shoppingList">
+
+          </ol>
         </div>
         
       
@@ -92,19 +92,15 @@
     <script>
       const personalPage = document.querySelector('.personalPage');
       const loginBtn = document.querySelector('.loginBtn');
-      const itemInput = document.querySelector('.addItem');
-      const addBtn = document.querySelector('.add');
+      const inputItem = document.querySelector('.addItem');
+      const addBtn = document.querySelector('.add')
       const hello = document.querySelector('.hello');
       const orderedList = document.querySelector('.cartDiv');
-      const select = document.querySelector('.select');
+      const shoppingList = document.querySelector('.shoppingList');
       let createCartP = document.querySelector('.createCartP');
-      const inputArea = document.querySelector('.inputArea');
       const deleteBtn = document.querySelector('.deleteBtn');
       let text;
      
-      let names = {};
-      let profile = {};
-
       Storage.prototype.setObj = function(key, obj) {
         return this.setItem(key, JSON.stringify(obj))
       }
@@ -112,163 +108,91 @@
         return JSON.parse(this.getItem(key))
       }
 
-      loginBtn.addEventListener('click', register);
-      let promptValue;
-      function register() {
-        promptValue = prompt('Shopping Cart Name', '');
-        if (promptValue != null || promptValue != '') {
-        let localNames = localStorage.getObj('nameeList');
-
-        if (localNames == null && promptValue != null && promptValue != '') {
-          names.list = [];
-          names.list.push(promptValue);
-          names.boolean = '';
-          localStorage.setObj('nameeList', names)
-        };
-
-        function booleanList() {
-          for (let i = 0; i < localNames.list.length; i++) {
-          if (localNames.list[i] != promptValue && promptValue != null || promptValue != '') {
-            localNames.boolean = false;
-          } else {
-            return localNames.boolean = true;
-          }
-        }
-        };
-
-        localNames.boolean = '';
-        booleanList();
-        if (localNames.boolean == false && promptValue != '') {
-          localNames.list.push(promptValue);
-          localStorage.setObj('nameeList', localNames)
-        }
-        
-        let localProfile = localStorage.getObj(promptValue);
-         if (localProfile == null && promptValue != null || promptValue != '') {
-            text = 'Shopping Cart:' + ' ' + promptValue;
-            orderedList.textContent = '';
-            profile[promptValue] = {};
-            profile[promptValue].list = [];
-            personalPage.style.display = 'block';
-            deleteBtn.style.display = 'block';
-            hello.textContent = text;
-            createCartP.style.display = 'none';
-            let selectOption = document.createElement('option');
-            selectOption.textContent = promptValue;
-            select.appendChild(selectOption);
-        }
-        if (localProfile != null && promptValue != null || promptValue != '') {
-              text = 'Shopping Cart:' + ' ' + promptValue;
-              orderedList.textContent = '';
-              hello.textContent = text;
-              for (let i = 0; i < localProfile[promptValue].list.length; i++) {
-              let li = document.createElement('li');
-              let checkbox = document.createElement('input');
-              checkbox.type = 'checkbox';
-              li.textContent = localProfile[promptValue].list[i] + ' ';
-              li.appendChild(checkbox);
-              orderedList.appendChild(li);
-              personalPage.style.display = 'block';
-              deleteBtn.style.display = 'block';
-              }
-        }
+      let localNames;
+      if (!localStorage.getObj('names')) {
+        let names = {};
+        names.list = [];
+        localStorage.setObj('names', names);
+      } else {
+        localNames = localStorage.getObj('names');
       }
-        if (promptValue == null || promptValue == '') {
-          text = 'Please try again, fields empty';
-          personalPage.style.display = 'none';
-          deleteBtn.style.display = 'none';
+      // loginBtn(register) eventListener //
+      let cartName;
+      loginBtn.addEventListener('click', function() {
+
+        let cartName = prompt('Name your shopping cart');
+        if (cartName == null || cartName == '') {
+          console.log('if block tells fields empty, value: ' + cartName)
+        } else {
+          register(cartName);
         }
 
-        hello.textContent = text;
-        createCartP.style.display = 'none';
-      }
-
-      addBtn.addEventListener('click', function() {
-          let localProfile = localStorage.getObj(promptValue);
-          if (localProfile != null) {
-            localProfile[promptValue].list.push(itemInput.value);
-            localProfile[promptValue].currentItem = itemInput.value;
-            localStorage.setObj(promptValue, localProfile);
-            updateShoppingListLocal();
-          } else {
-
-            profile[promptValue].currentItem = itemInput.value;
-            profile[promptValue].list.push(itemInput.value);
-            updateShoppingList();
-          }
-          }
-        );
-      
-      function updateShoppingList() {
-          let li = document.createElement('li');
-          let checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          li.textContent = profile[promptValue].currentItem + ' ';
-          profile[promptValue].currentItem = '';
-          li.appendChild(checkbox);
-          orderedList.appendChild(li);
-          localStorage.setObj(promptValue, profile);
-
-          itemInput.value = '';
-          itemInput.focus();
-          }
-
-
-      function updateShoppingListLocal() {
-          let localProfile = localStorage.getObj(promptValue);
-          let li = document.createElement('li');
-          let checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          li.textContent = localProfile[promptValue].currentItem + ' ';
-          localProfile[promptValue].currentItem = '';
-          li.appendChild(checkbox);
-          orderedList.appendChild(li);
-          localStorage.setObj(promptValue, localProfile);
-
-          itemInput.value = '';
-          itemInput.focus();
-        }
-
-      document.body.onload = function() {
-          let localNames = localStorage.getObj('nameeList');
-          for (let i = 0; i < localNames.list.length; i++) {
-            let selectOption = document.createElement('option');
-            selectOption.textContent = localNames.list[i];
-            select.appendChild(selectOption);
-
-          }
-        }
-
-        
-      select.addEventListener('change', function() {
-          let selectValue = select.value;
-          let localProfile = localStorage.getObj(selectValue);
-          text = 'Shopping Cart:' + ' ' + selectValue;
-          orderedList.textContent = '';
-          hello.textContent = text;
-          for (let i = 0; i < localProfile[selectValue].list.length; i++) {
-          let li = document.createElement('li');
-          let checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          li.textContent = localProfile[selectValue].list[i] + ' ';
-          li.appendChild(checkbox);
-          orderedList.appendChild(li);
-          personalPage.style.display = 'block';
-          deleteBtn.style.display = 'block';
-        }
       });
 
-      deleteBtn.addEventListener('click', function() {
-          saveListA = [];
-          listedItem.textContent = '';
+      let localProfile;
+      function register(x) {
+        console.log('this is ' + x + ' register');
+        hello.textContent = 'Shopping list: ' + x;
+        personalPage.style.display = 'block';
+        previousShoppingListClear();
+        if (!localStorage.getObj(x)) {
+        saveNewShoppingCart(x);
+        } else {
+          localShoppingListUpdate(x);
+        }
+      };
 
-          localStorage.removeItem('itemName' + name);
-          updateShoppingList();
-          
-        });
+      function saveNewShoppingCart(x) {
+        let profile = {};
+        profile.name = x;
+        profile.list = [];
+        profile.currentItem = '';
+        localStorage.setObj(x, profile);
+        localNames[x] = '';
+        localNames.list.push(x);
+        localStorage.setObj('names', localNames);
+        localProfile = localStorage.getObj(x);
+      };
 
-        
-        
+      function localShoppingListUpdate(x) {
+        localProfile = localStorage.getObj(x);
+        for (let i = 0; i < localProfile.list.length; i++) {
+          let li = document.createElement('li');
+          li.textContent = localProfile.list[i];
+          let checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          li.appendChild(checkbox);
+          shoppingList.appendChild(li);
+        }
+      };
+
+      // ADDbtn eventListener //
+      addBtn.addEventListener('click', function() {
+
+        let cartItem = inputItem.value;
+        localProfile.list.push(cartItem);
+        localStorage.setObj(localProfile.name, localProfile);
+        shoppingListUpdate(cartItem);
+
+        inputItem.value = '';
+        inputItem.focus();
+
+      });
+
+      function shoppingListUpdate(x) {
+        let li = document.createElement('li');
+        li.textContent = x;
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        li.appendChild(checkbox);
+        shoppingList.appendChild(li);
+      };
+
+      function previousShoppingListClear() {
+        shoppingList.textContent = '';
+      }
+
+
     </script>
   </body>
 </html>
