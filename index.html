@@ -116,11 +116,12 @@
       } else {
         localNames = localStorage.getObj('names');
       }
+
       // loginBtn(register) eventListener //
-      let cartName;
+      let cartName = '';
       loginBtn.addEventListener('click', function() {
 
-        let cartName = prompt('Name your shopping cart');
+        cartName = prompt('Name your shopping cart');
         if (cartName == null || cartName == '') {
           console.log('if block tells fields empty, value: ' + cartName)
         } else {
@@ -168,7 +169,7 @@
 
       // ADDbtn eventListener //
       addBtn.addEventListener('click', function() {
-
+        localProfile = localStorage.getObj()
         let cartItem = inputItem.value;
         localProfile.list.push(cartItem);
         localStorage.setObj(localProfile.name, localProfile);
