@@ -66,7 +66,10 @@
       </div>
 
       <p class="createCartP">Create new one or use existing shopping cart</p>
-      <button class="loginBtn">Shopping cart</button>
+      <button class="loginBtn">Create Shopping cart</button>
+      <select class="select">
+        <option disabled selected value>Choose your shopping cart</option>
+      </select>
       <h2 class="hello"></h2>
       <button class="deleteBtn">Delete current cart</button>
       <div class="personalPage">
@@ -97,8 +100,10 @@
       const hello = document.querySelector('.hello');
       const orderedList = document.querySelector('.cartDiv');
       const shoppingList = document.querySelector('.shoppingList');
+      const select = document.querySelector('.select');
       let createCartP = document.querySelector('.createCartP');
       const deleteBtn = document.querySelector('.deleteBtn');
+
       let text;
      
       Storage.prototype.setObj = function(key, obj) {
@@ -124,6 +129,8 @@
         cartName = prompt('Name your shopping cart');
         if (cartName == null || cartName == '') {
           console.log('if block tells fields empty, value: ' + cartName)
+          personalPage.style.display = 'none';
+          hello.textContent = 'Fields empty, try again!'
         } else {
           register(cartName);
         }
@@ -133,7 +140,7 @@
       let localProfile;
       function register(x) {
         console.log('this is ' + x + ' register');
-        hello.textContent = 'Shopping list: ' + x;
+        hello.textContent = 'Shopping Cart: ' + x;
         personalPage.style.display = 'block';
         previousShoppingListClear();
         if (!localStorage.getObj(x)) {
@@ -154,6 +161,9 @@
         localNames.list.push(x);
         localStorage.setObj('names', localNames);
         localProfile = localStorage.getObj(x);
+        let sOption = document.createElement('option');
+        sOption.textContent = x;
+        select.appendChild(sOption);
       };
 
       function localShoppingListUpdate(x) {
@@ -190,9 +200,36 @@
         shoppingList.appendChild(li);
       };
 
+      // SELECT eventListener //
+      select.addEventListener('change', function() {
+        personalPage.style.display = 'block';
+        previousShoppingListClear();
+        let selectValue = select.value;
+        hello.textContent = 'Shopping Cart: ' + selectValue;
+        let selectProfile = localStorage.getObj(selectValue);
+        for (let i = 0; i < selectProfile.list.length; i++) {
+          let li = document.createElement('li');
+          li.textContent = selectProfile.list[i];
+          let checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          li.appendChild(checkbox);
+          shoppingList.appendChild(li);
+        }
+      });
+
       function previousShoppingListClear() {
         shoppingList.textContent = '';
-      }
+      };
+
+      document.body.onload = function() {
+        if (localNames != undefined) {
+          for (let i = 0; i < localNames.list.length; i++) {
+            let sOption = document.createElement('option');
+            sOption.textContent = localNames.list[i];
+            select.appendChild(sOption);
+          }
+        }
+      };
 
 
     </script>
