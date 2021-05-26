@@ -112,7 +112,7 @@
       if (!localStorage.getObj('names')) {
         let names = {};
         names.list = [];
-        localNames = localStorage.setObj('names', names);
+        //localNames = localStorage.setObj('names', names);
         localStorage.setObj('names', names);
       } else {
         localNames = localStorage.getObj('names');
@@ -150,6 +150,7 @@
         profile.list = [];
         profile.currentItem = '';
         localStorage.setObj(x, profile);
+        localNames = localStorage.getObj('names')
         localNames[x] = '';
         localNames.list.push(x);
         localStorage.setObj('names', localNames);
