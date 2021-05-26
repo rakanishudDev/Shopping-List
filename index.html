@@ -180,11 +180,8 @@
 
       // ADDbtn eventListener //
       addBtn.addEventListener('click', function() {
-        if (localStorage.getObj(cartName) === undefined) {
-          cartName = select.value;
-        }
+        
         let localProfile = localStorage.getObj(cartName);
-
         let cartItem = inputItem.value;
         localProfile.list.push(cartItem);
         localStorage.setObj(localProfile.name, localProfile);
