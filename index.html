@@ -71,7 +71,8 @@
         <option disabled selected value>Choose your shopping cart</option>
       </select>
       <h2 class="hello"></h2>
-      <button class="deleteBtn">Delete current cart</button>
+      <button class="deleteBtn">Delete current list</button>
+      <button class="deleteAll">Delete all carts</button>
       <div class="personalPage">
         <p>Add item in your shopping list</p>
         <input required type="text" class="addItem" placeholder="Shopping item">
@@ -103,6 +104,7 @@
       const select = document.querySelector('.select');
       let createCartP = document.querySelector('.createCartP');
       const deleteBtn = document.querySelector('.deleteBtn');
+      const deleteAll = document.querySelector('.deleteAll');
 
       let text;
      
@@ -134,6 +136,7 @@
           console.log('if block tells fields empty, value: ' + cartName)
           personalPage.style.display = 'none';
           deleteBtn.style.display = 'none';
+          deleteAll.style.display = 'none';
           hello.textContent = 'Fields empty, try again!';
         } else {
           register(cartName);
@@ -147,6 +150,7 @@
         hello.textContent = 'Shopping Cart: ' + x;
         deleteBtn.style.display = 'block';
         personalPage.style.display = 'block';
+        deleteBtn.style.display = 'block';
         previousShoppingListClear();
         if (!localStorage.getObj(x)) {
         saveNewShoppingCart(x);
@@ -213,6 +217,7 @@
       select.addEventListener('change', function() {
         cartName = select.value
         personalPage.style.display = 'block';
+        deleteAll.style.display = 'block';
         deleteBtn.style.display = 'block';
         previousShoppingListClear();
         let selectValue = select.value;
@@ -238,8 +243,15 @@
         localStorage.setObj(localProfile.name, localProfile)
         hello.textContent = 'This shopping list successfully deleted!';
         shoppingList.textContent = '';
-
       });
+
+      deleteAll.addEventListener('click', function() {
+        localStorage.remove();
+        hello.textContent = 'All carts deleted!';
+        personalPage.style.display = 'none';
+        deleteBtn.style.display = 'none';
+        deleteAll.style.display = 'none';
+      })
 
       document.body.onload = function() {
         if (localNames != undefined) {
