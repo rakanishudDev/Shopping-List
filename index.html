@@ -230,16 +230,10 @@
       };
 
       deleteBtn.addEventListener('click', function() {
+        localProfile = localStorage.getObj(localProfile.name);
         localProfile.list = [];
         hello.textContent = 'This shopping list successfully deleted!';
-        for (let i = 0; i < localProfile.list.length; i++) {
-          let li = document.createElement('li');
-          li.textContent = localProfile.list[i];
-          let checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          li.appendChild(checkbox);
-          shoppingList.appendChild(li);
-        }
+        orderedList.textContent = '';
 
       });
 
