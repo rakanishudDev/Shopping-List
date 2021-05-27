@@ -203,6 +203,7 @@
 
       // SELECT eventListener //
       select.addEventListener('change', function() {
+        cartName = select.value
         personalPage.style.display = 'block';
         previousShoppingListClear();
         let selectValue = select.value;
