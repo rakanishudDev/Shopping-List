@@ -246,20 +246,27 @@
       });
 
       deleteAll.addEventListener('click', function() {
-        localStorage.clear();
-        if (!localStorage.getObj('names')) {
-        let names = {};
-        names.list = [];
-        localStorage.setObj('names', names);
-      } else {
-        localNames = localStorage.getObj('names');
-      }
-        hello.textContent = 'All carts deleted!';
-        personalPage.style.display = 'none';
-        deleteBtn.style.display = 'none';
-        deleteAll.style.display = 'none';
-        select.textContent = '';
-      })
+        let deleteConfirm = prompt('Confirm by typing "delete"');
+
+        if (deleteConfirm == 'delete') {
+          localStorage.clear();
+          if (!localStorage.getObj('names')) {
+          let names = {};
+          names.list = [];
+          localStorage.setObj('names', names);
+        } else {
+          localNames = localStorage.getObj('names');
+        }
+          hello.textContent = 'All carts deleted!';
+          personalPage.style.display = 'none';
+          deleteBtn.style.display = 'none';
+          deleteAll.style.display = 'none';
+          select.textContent = '';
+        } else {
+          return;
+        }
+        
+      });
 
       document.body.onload = function() {
         if (localNames != undefined) {
