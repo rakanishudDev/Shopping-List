@@ -112,6 +112,9 @@
       Storage.prototype.getObj = function(key) {
         return JSON.parse(this.getItem(key))
       }
+      Storage.prototype.removeObj = function(key) {
+        return JSON.parse(this.removeItem(key))
+      }
 
       let localNames;
       if (!localStorage.getObj('names')) {
