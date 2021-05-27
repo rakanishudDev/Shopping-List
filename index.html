@@ -187,6 +187,9 @@
       addBtn.addEventListener('click', function() {
         
         let localProfile = localStorage.getObj(cartName);
+        if (hello.textContent == 'This shopping list successfully deleted!') {
+          hello.textContent = 'Shopping Cart: ' + localProfile.name;
+        };
         let cartItem = inputItem.value;
         localProfile.list.push(cartItem);
         localStorage.setObj(localProfile.name, localProfile);
