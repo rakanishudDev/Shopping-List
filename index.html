@@ -232,8 +232,9 @@
       deleteBtn.addEventListener('click', function() {
         localProfile = localStorage.getObj(localProfile.name);
         localProfile.list = [];
+        localStorage.setObj(localPRofile.name, localProfile)
         hello.textContent = 'This shopping list successfully deleted!';
-        orderedList.textContent = '';
+        shoppingList.textContent = '';
 
       });
 
