@@ -230,7 +230,7 @@
       };
 
       deleteBtn.addEventListener('click', function() {
-        localStorage.clear(localProfile.name);
+        localStorage.removeObj(localProfile.name);
         personalPage.style.display = 'none';
         deleteBtn.style.display = 'none';
         hello.textContent = 'Cart successfully deleted!';
