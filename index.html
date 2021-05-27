@@ -230,10 +230,17 @@
       };
 
       deleteBtn.addEventListener('click', function() {
-        localStorage.removeObj(localProfile.name);
-        personalPage.style.display = 'none';
-        deleteBtn.style.display = 'none';
-        hello.textContent = 'Cart successfully deleted!';
+        localProfile.list = [];
+        hello.textContent = 'This shopping list successfully deleted!';
+        for (let i = 0; i < localProfile.list.length; i++) {
+          let li = document.createElement('li');
+          li.textContent = localProfile.list[i];
+          let checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          li.appendChild(checkbox);
+          shoppingList.appendChild(li);
+        }
+
       });
 
       document.body.onload = function() {
