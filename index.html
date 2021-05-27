@@ -130,6 +130,7 @@
         if (cartName == null || cartName == '') {
           console.log('if block tells fields empty, value: ' + cartName)
           personalPage.style.display = 'none';
+          deleteBtn.style.display = 'none';
           hello.textContent = 'Fields empty, try again!';
         } else {
           register(cartName);
@@ -224,6 +225,13 @@
       function previousShoppingListClear() {
         shoppingList.textContent = '';
       };
+
+      deleteBtn.addEventListener('click', function() {
+        localStorage.remove(localProfile.name);
+        personalPage.style.display = 'none';
+        deleteBtn.style.display = 'none';
+        hello.textContent = 'Cart successfully deleted!';
+      });
 
       document.body.onload = function() {
         if (localNames != undefined) {
