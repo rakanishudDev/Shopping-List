@@ -113,7 +113,7 @@
         return JSON.parse(this.getItem(key))
       }
       Storage.prototype.removeObj = function(key) {
-        return JSON.parse(this.removeItem(key))
+        return this.removeItem(key)
       }
 
       let localNames;
