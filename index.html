@@ -207,10 +207,10 @@
         previousShoppingListClear();
         let selectValue = select.value;
         hello.textContent = 'Shopping Cart: ' + selectValue;
-        let selectProfile = localStorage.getObj(selectValue);
-        for (let i = 0; i < selectProfile.list.length; i++) {
+        localProfile = localStorage.getObj(selectValue);
+        for (let i = 0; i < localProfile.list.length; i++) {
           let li = document.createElement('li');
-          li.textContent = selectProfile.list[i];
+          li.textContent = localProfile.list[i];
           let checkbox = document.createElement('input');
           checkbox.type = 'checkbox';
           li.appendChild(checkbox);
