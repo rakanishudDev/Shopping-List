@@ -141,6 +141,7 @@
       function register(x) {
         console.log('this is ' + x + ' register');
         hello.textContent = 'Shopping Cart: ' + x;
+        deleteBtn.style.display = 'block';
         personalPage.style.display = 'block';
         previousShoppingListClear();
         if (!localStorage.getObj(x)) {
@@ -205,6 +206,7 @@
       select.addEventListener('change', function() {
         cartName = select.value
         personalPage.style.display = 'block';
+        deleteBtn.style.display = 'block';
         previousShoppingListClear();
         let selectValue = select.value;
         hello.textContent = 'Shopping Cart: ' + selectValue;
